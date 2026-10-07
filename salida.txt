@@ -1,0 +1,119 @@
+=================================================================
+ TP3 - Prototipo de Hopfield para identificación de imágenes
+ Imagen 10 x 10 = 100 neuronas | estados {+1 = X, -1 = -}
+=================================================================
+
+EXPERIMENTO 1: dos patrones almacenados (aro y cruz, ambos con la escuadra)
+Entrada: aro con 40% de sus píxeles faltantes y 12% de ruido en toda la imagen.
+
+--- Aro dañado [HEBB] ---
+Entrada E=-3300,0      Ciclo 1 E=-6700,0      Referencia             
+- - - - - - - - - -    - - - - - - - - - -    - - - - - - - - - -    
+- X - - - X - X - -    - - - - X X X X - -    - - - - X X X X - -    
+- X - X - X - - - -    - - - X - - - - X -    - - - X - - - - X -    
+- - - X X X - - - X    - - - X - - - - X -    - - - X - - - - X -    
+- - - - - X - - - X    - - - X - - - - X -    - - - X - - - - X -    
+- - - X - - - - X -    - - - X - - - - X -    - - - X - - - - X -    
+- - - - - X X X - -    - - - - X X X X - -    - - - - X X X X - -    
+X - - - - - - - - -    X - - - - - - - - -    X - - - - - - - - -    
+X - - - - - - - - X    X - - - - - - - - -    X - - - - - - - - -    
+- X X - - X - - - -    X X X - - - - - - -    X X X - - - - - - -    
+
+Ciclos: 1 | Estado estable
+Píxeles distintos de la referencia: 0 de 100
+Patrón recuperado: ARO
+Escuadra de referencia intacta: sí
+Centro A medido: X = 5,5 px, Y = 5,5 px (referencia X = 5,5, Y = 5,5)
+
+--- Aro dañado [PSEUDOINVERSA] ---
+Entrada E=-20,9        Ciclo 1 E=-49,0        Referencia             
+- - - - - - - - - -    - - - - - - - - - -    - - - - - - - - - -    
+- X - - - X - X - -    - - - - X X X X - -    - - - - X X X X - -    
+- X - X - X - - - -    - - - X - - - - X -    - - - X - - - - X -    
+- - - X X X - - - X    - - - X - - - - X -    - - - X - - - - X -    
+- - - - - X - - - X    - - - X - - - - X -    - - - X - - - - X -    
+- - - X - - - - X -    - - - X - - - - X -    - - - X - - - - X -    
+- - - - - X X X - -    - - - - X X X X - -    - - - - X X X X - -    
+X - - - - - - - - -    X - - - - - - - - -    X - - - - - - - - -    
+X - - - - - - - - X    X - - - - - - - - -    X - - - - - - - - -    
+- X X - - X - - - -    X X X - - - - - - -    X X X - - - - - - -    
+
+Ciclos: 1 | Estado estable
+Píxeles distintos de la referencia: 0 de 100
+Patrón recuperado: ARO
+Escuadra de referencia intacta: sí
+Centro A medido: X = 5,5 px, Y = 5,5 px (referencia X = 5,5, Y = 5,5)
+
+EXPERIMENTO 2: cinco patrones = el mismo aro desplazado 1 píxel
+(simula los corrimientos del block sobre la cinta; se busca saber DÓNDE está el aro)
+Ortogonalidad: producto escalar entre aro nominal y aro corrido 1px = 60 (0 sería ortogonal)
+
+--- Aro corrido a la derecha, dañado [HEBB] ---
+Entrada E=-8558,0      Ciclo 1 E=-12526,0     Referencia             
+- - - - - - - - - -    - - - - - - - - - -    - - - - - - - - - -    
+- - - - - - X - X -    - - - - - X X - - -    - - - - - X X X X -    
+- - X - - - - - - X    - - - - - - - - - -    - - - - X - - - - X    
+- - - - - - - - - X    - - - X - - - - X -    - - - - X - - - - X    
+- - - - X - - X - -    - - - X - - - - X -    - - - - X - - - - X    
+- - - - X - - - - -    - - - - - - - - - -    - - - - X - - - - X    
+- - - X - X X X - -    - - - - - X X - - -    - - - - - X X X X -    
+X - - - - X - - - -    X - - - - - - - - -    X - - - - - - - - -    
+X - - - - - - - - -    X - - - - - - - - -    X - - - - - - - - -    
+X X X - X - - - - -    X X X - - - - - - -    X X X - - - - - - -    
+
+Ciclos: 1 | Estado estable
+Píxeles distintos de la referencia: 16 de 100
+Patrón recuperado: NINGUNO (estado espurio)
+Escuadra de referencia intacta: sí
+
+--- Aro corrido a la derecha, dañado [PSEUDOINVERSA] ---
+Entrada E=-31,2        Ciclo 1 E=-45,7        Ciclo 2 E=-47,5        Referencia             
+- - - - - - - - - -    - - - - - - - - - -    - - - - - - - - - -    - - - - - - - - - -    
+- - - - - - X - X -    - - - - - X X X X -    - - - - - X X X X -    - - - - - X X X X -    
+- - X - - - - - - X    - - - - X - - - - X    - - - - X - - - - X    - - - - X - - - - X    
+- - - - - - - - - X    - - - - X - - - - X    - - - - X - - - - X    - - - - X - - - - X    
+- - - - X - - X - -    - - - - X - - - - X    - - - - X - - - - X    - - - - X - - - - X    
+- - - - X - - - - -    - - - - X - - - - X    - - - - X - - - - X    - - - - X - - - - X    
+- - - X - X X X - -    - - - - - X X - X -    - - - - - X X X X -    - - - - - X X X X -    
+X - - - - X - - - -    X - - - - - - - - -    X - - - - - - - - -    X - - - - - - - - -    
+X - - - - - - - - -    X - - - - - - - - -    X - - - - - - - - -    X - - - - - - - - -    
+X X X - X - - - - -    X X X - - - - - - -    X X X - - - - - - -    X X X - - - - - - -    
+
+Ciclos: 2 | Estado estable
+Píxeles distintos de la referencia: 0 de 100
+Patrón recuperado: ARO 1px derecha
+Escuadra de referencia intacta: sí
+Centro A medido: X = 6,5 px, Y = 5,5 px (referencia X = 6,5, Y = 5,5)
+
+EXPERIMENTO 3: tolerancia al ruido - % de consultas que recuperan el patrón correcto
+(100 consultas por celda, ruido = % de píxeles invertidos al azar)
+
+Ruido    | Exp.1 (aro/cruz)       | Exp.2 (5 aros corridos)
+         | Hebb       Pseudoinv.  | Hebb       Pseudoinv. 
+----------------------------------------------------------
+0%       | 100%       100%        | 0%         100%       
+5%       | 100%       100%        | 0%         100%       
+10%      | 100%       100%        | 0%         100%       
+20%      | 100%       100%        | 0%         99%        
+30%      | 99%        97%         | 0%         88%        
+40%      | 81%        78%         | 0%         52%        
+
+EXPERIMENTO 4: capacidad de almacenamiento con patrones al azar (n = 100)
+Estable = el patrón presentado intacto no cambia.
+Recupera = el patrón con 10% de ruido vuelve exactamente al original.
+(promedio de 10 repeticiones por fila)
+
+q     q/n    | Hebb                | Pseudoinv.          
+             | Estable   Recupera  | Estable   Recupera 
+--------------------------------------------------------
+5     0,05   | 100%      100%      | 100%      100%     
+10    0,10   | 97%       95%       | 100%      100%     
+14    0,14   | 86%       74%       | 100%      100%     
+20    0,20   | 40%       27%       | 100%      100%     
+30    0,30   | 4%        0%        | 100%      100%     
+40    0,40   | 0%        0%        | 100%      100%     
+50    0,50   | 0%        0%        | 100%      33%      
+60    0,60   | 0%        0%        | 100%      0%       
+80    0,80   | 0%        0%        | 100%      0%       
+
+Fin de la ejecución.
